@@ -1,0 +1,77 @@
+{
+  "$schema": "https://raw.githubusercontent.com/antennae-space/plugin-sdk/v1.6.0/plugin.schema.json",
+  "id": "lang-php",
+  "name": "PHP",
+  "version": "1.0.0",
+  "apiVersion": 1,
+  "ide": ">=1.24.0 <2",
+  "assets": "https://github.com/antennae-space/lang-php/releases/download/v{version}/lang-php-{arch}.tar.gz",
+  "permissions": [
+    "program:intelephense",
+    "program:phpactor",
+    "path:NODE",
+    "path:INTELEPHENSE",
+    "path:PHPACTOR"
+  ],
+  "contributes": {
+    "languages": [
+      {
+        "id": "php",
+        "name": "PHP",
+        "extensions": [
+          ".php",
+          ".phtml",
+          ".php8",
+          ".inc"
+        ],
+        "markers": [
+          "composer.json"
+        ],
+        "grammar": "grammars/php.json",
+        "servers": [
+          {
+            "argv": [
+              "intelephense",
+              "--stdio"
+            ],
+            "paths": [
+              {
+                "name": "NODE",
+                "candidates": [
+                  "@node/../.."
+                ]
+              },
+              {
+                "name": "INTELEPHENSE",
+                "candidates": [
+                  "@intelephense/../.."
+                ]
+              }
+            ],
+            "pathDirs": [
+              "NODE/bin"
+            ]
+          },
+          {
+            "argv": [
+              "phpactor",
+              "language-server"
+            ],
+            "paths": [
+              {
+                "name": "PHPACTOR",
+                "candidates": [
+                  "@phpactor/../../..",
+                  "@phpactor/.."
+                ]
+              }
+            ]
+          }
+        ],
+        "tests": {
+          ".php": "{name}Test.php"
+        }
+      }
+    ]
+  }
+}

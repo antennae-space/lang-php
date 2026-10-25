@@ -1,0 +1,197 @@
+{
+  "id": "php",
+  "name": "PHP",
+  "extensions": [
+    ".php",
+    ".phtml",
+    ".php8",
+    ".inc"
+  ],
+  "detect": "^<\\?php|^#!.*\\bphp\\b",
+  "states": {
+    "root": [
+      {
+        "token": "meta",
+        "regex": "<\\?(?:php|=)?",
+        "next": "php"
+      },
+      {
+        "token": "comment",
+        "regex": "<!--.*?(?:-->|$)"
+      },
+      {
+        "token": "tag",
+        "regex": "</?[A-Za-z][\\w:-]*|/?>"
+      },
+      {
+        "token": "string",
+        "regex": "\"[^\"]*\"|'[^']*'"
+      }
+    ],
+    "php": [
+      {
+        "token": "meta",
+        "regex": "\\?>",
+        "next": "@pop"
+      },
+      {
+        "token": "meta",
+        "regex": "#\\[[^\\]]*\\]?"
+      },
+      {
+        "token": "comment",
+        "regex": "(?://|#).*?(?=\\?>|$)"
+      },
+      {
+        "token": "comment",
+        "regex": "/\\*",
+        "next": "comment"
+      },
+      {
+        "token": "string",
+        "regex": "<<<\\s*'(\\w+)'\\s*$",
+        "next": "nowdoc"
+      },
+      {
+        "token": "string",
+        "regex": "<<<\\s*\"?(\\w+)\"?\\s*$",
+        "next": "heredoc"
+      },
+      {
+        "token": "string",
+        "regex": "\"",
+        "next": "dq"
+      },
+      {
+        "token": "string",
+        "regex": "'",
+        "next": "sq"
+      },
+      {
+        "token": "variable",
+        "regex": "\\$this\\b"
+      },
+      {
+        "token": "variable",
+        "regex": "\\$+[A-Za-z_]\\w*"
+      },
+      {
+        "token": "number",
+        "regex": "\\b(?:0[xX][\\da-fA-F_]+|0[bB][01_]+|0[oO][0-7_]+|\\d[\\d_]*(?:\\.\\d[\\d_]*)?(?:[eE][+-]?\\d+)?[nfFlLuU]?)\\b|\\.\\d+\\b"
+      },
+      {
+        "token": "keyword",
+        "regex": "\\b(?:abstract|and|as|break|callable|case|catch|class|clone|const|continue|declare|default|do|echo|else|elseif|empty|enddeclare|endfor|endforeach|endif|endswitch|endwhile|enum|extends|final|finally|fn|for|foreach|function|global|goto|if|implements|include|include_once|instanceof|insteadof|interface|isset|list|match|namespace|new|or|print|private|protected|public|readonly|require|require_once|return|static|switch|throw|trait|try|unset|use|var|while|xor|yield|from)\\b",
+        "flags": "i"
+      },
+      {
+        "token": "constant",
+        "regex": "\\b(?:true|false|null|__(?:CLASS|DIR|FILE|FUNCTION|LINE|METHOD|NAMESPACE|TRAIT)__)\\b",
+        "flags": "i"
+      },
+      {
+        "token": "type",
+        "regex": "\\b(?:int|float|string|bool|array|void|mixed|never|object|iterable|self|parent|null)\\b(?!\\s*\\()"
+      },
+      {
+        "token": "constant",
+        "regex": "\\b[A-Z][A-Z0-9_]+\\b"
+      },
+      {
+        "token": "type",
+        "regex": "\\b[A-Z][a-z0-9]\\w*\\b"
+      },
+      {
+        "token": "function",
+        "regex": "[A-Za-z_$][\\w$]*(?=\\s*\\()"
+      },
+      {
+        "token": "property",
+        "regex": "(?<=->|::)[A-Za-z_]\\w*"
+      },
+      {
+        "token": "text",
+        "regex": "[A-Za-z_\\\\][\\w\\\\]*"
+      },
+      {
+        "token": "operator",
+        "regex": "->|=>|::|[-+*/%=<>!&|^~?:.@]+"
+      },
+      {
+        "token": "punctuation",
+        "regex": "[{}()\\[\\];,.]"
+      }
+    ],
+    "comment": [
+      {
+        "token": "comment",
+        "regex": "\\*/",
+        "next": "@pop"
+      },
+      {
+        "token": "comment",
+        "regex": "[^*]+|\\*"
+      }
+    ],
+    "dq": [
+      {
+        "token": "escape",
+        "regex": "\\\\."
+      },
+      {
+        "token": "variable",
+        "regex": "\\{?\\$[A-Za-z_]\\w*(?:->\\w+|\\[[^\\]]*\\])*\\}?"
+      },
+      {
+        "token": "string",
+        "regex": "\"",
+        "next": "@pop"
+      },
+      {
+        "token": "string",
+        "regex": "[^\"\\\\$]+|\\$"
+      }
+    ],
+    "sq": [
+      {
+        "token": "escape",
+        "regex": "\\\\[\\\\']"
+      },
+      {
+        "token": "string",
+        "regex": "'",
+        "next": "@pop"
+      },
+      {
+        "token": "string",
+        "regex": "[^'\\\\]+|\\\\"
+      }
+    ],
+    "heredoc": [
+      {
+        "token": "string",
+        "regex": "^\\s*[A-Za-z_]\\w*\\b(?=\\s*[;,)\\]]|\\s*$)",
+        "next": "@pop"
+      },
+      {
+        "token": "variable",
+        "regex": "\\{?\\$[A-Za-z_]\\w*(?:->\\w+)?\\}?"
+      },
+      {
+        "token": "string",
+        "regex": "[^$]+|\\$"
+      }
+    ],
+    "nowdoc": [
+      {
+        "token": "string",
+        "regex": "^\\s*[A-Za-z_]\\w*\\b(?=\\s*[;,)\\]]|\\s*$)",
+        "next": "@pop"
+      },
+      {
+        "token": "string",
+        "regex": ".+"
+      }
+    ]
+  }
+}
