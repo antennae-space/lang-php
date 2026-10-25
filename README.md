@@ -4,6 +4,7 @@ The PHP language pack of [Web IDE](https://github.com/antennae-space/web-ide): t
 
 ## What it needs
 
+- **Install from the IDE**: a PHP file without a server shows a banner, *Install intelephense* (also in *Settings → Plugins*): the IDE runs npm in a console, into its own folder (`~/.local/share/web-ide/tools/lang-php`). You need node and npm.
 - **intelephense** (`npm install -g intelephense`), or else **phpactor** (its phar, or `composer global require phpactor/phpactor`), on your PATH.
 - The IDE runs it **confined**: it reads your project (not write), the program and its package (intelephense: the node on your PATH, `NODE`, and its package, `INTELEPHENSE`; phpactor: its composer `vendor` folder or the folder of its phar, `PHPACTOR`), keeps its caches in its own folder, and has no network.
 - On a project over SSH, the server runs on its host, as you installed it there.
